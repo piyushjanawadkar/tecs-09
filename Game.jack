@@ -1,0 +1,18 @@
+class Game {
+  field int snakeLength;
+  field int numFood;
+
+  constructor Game new(int argSnakeLength, int argNumFood) {
+    let snakeLength = argSnakeLength;
+    let numFood = argNumFood;
+    return this;
+  }
+
+  method void play() {
+    return;
+  }
+
+  method void dispose() {
+    return;
+  }
+}

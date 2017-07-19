@@ -1,0 +1,9 @@
+class Main {
+  method void main() {
+    var Game game;
+    let game = Game.new(10, 10);
+    do game.play();
+    do game.dispose();
+    return;
+  }
+}
