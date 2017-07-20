@@ -1,14 +1,15 @@
 class Game {
-  field int snakeLength;
-  field int numFood;
+  field Snake snake;
+  field int numCoins;
 
-  constructor Game new(int argSnakeLength, int argNumFood) {
-    let snakeLength = argSnakeLength;
-    let numFood = argNumFood;
+  constructor Game new(int argSnakeLength, int argNumCoins) {
+    let snake = Snake.new(argSnakeLength);
+    let numCoins = argNumCoins;
     return this;
   }
 
   method void play() {
+    do snake.draw(0, 0);
     return;
   }
 

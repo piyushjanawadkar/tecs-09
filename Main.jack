@@ -1,7 +1,7 @@
 class Main {
-  method void main() {
+  function void main() {
     var Game game;
-    let game = Game.new(10, 10);
+    let game = Game.new(20, 10);
     do game.play();
     do game.dispose();
     return;
