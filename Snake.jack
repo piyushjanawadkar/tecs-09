@@ -1,0 +1,16 @@
+class Snake {
+
+  field int initialLength;
+  field int size;
+
+  constructor Snake new(int snakeLength) {
+    let initialLength = snakeLength;
+    let size = 10;
+    return this;
+  }
+
+  method void draw(int x, int y) {
+    do Screen.drawRectangle(x, y, x + Math.multiply(initialLength, size), y + size);
+    return;
+  }
+}
