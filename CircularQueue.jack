@@ -1,0 +1,74 @@
+class CircularQueue {
+
+  field Array buffer;
+  field int bufferSize;
+  field int front;
+  field int back;
+  field int length;
+
+  constructor CircularQueue new(int argMaxNumCells) {
+    let bufferSize = argMaxNumCells;
+    let buffer = Array.new(bufferSize);
+    do resetIndices();
+    let length = 0;
+    return this;
+  }
+
+  method void enqueue(Rectangle rect) {
+    var Cell cell;
+
+    let front = advanceIndex(front);
+    let cell = Cell.new(rect, front);
+    
+    let buffer[front] = cell;
+    let length = length + 1;
+
+    if (length = 1) {
+      let back = advanceIndex(back);
+    }
+    return;
+  }
+
+  method void dequeue() {
+    let back = advanceIndex(back);
+    let length = length - 1;
+
+    if (length = 0) {
+      do resetIndices();
+    }
+    return;
+  }
+
+  method Cell front() {
+    return buffer[front];
+  }
+
+  method Cell back() {
+    return buffer[back];
+  }
+
+  method Cell nextCell(Cell cell) {
+    var int index;
+    let index = cell.index();
+    if (index = front) {
+      return null;
+    }
+
+    let index = advanceIndex(index);
+    return buffer[index];
+  }
+
+  method int advanceIndex(int index) {
+    let index = index + 1;
+    if (index = bufferSize) {
+      let index = 0;
+    }
+    return index;
+  }
+
+  method void resetIndices() {
+    let front = -1;
+    let back = -1;
+    return;
+  }
+}

@@ -3,17 +3,25 @@ class Game {
   field int numCoins;
 
   constructor Game new(int argSnakeLength, int argNumCoins) {
-    let snake = Snake.new(argSnakeLength);
+    let snake = Snake.new(argSnakeLength, argSnakeLength + argNumCoins);
     let numCoins = argNumCoins;
     return this;
   }
 
   method void play() {
-    do snake.draw(0, 0);
+    do snake.setPosition(0, 0);
+    do snake.draw();
+    while (inProgress()) {
+      do snake.move(100);
+    }
     return;
   }
 
   method void dispose() {
     return;
+  }
+
+  method boolean inProgress() {
+    return true;
   }
 }

@@ -1,0 +1,65 @@
+class Body {
+
+  field CircularQueue cells;
+  field int cellSize;
+
+  constructor Body new(int argNumCells, int argMaxNumCells, int argCellSize) {
+    let cells = CircularQueue.new(argMaxNumCells);
+    let cellSize = argCellSize;
+    do initCells(argNumCells);
+    return this;
+  }
+
+  method void initCells(int numCells) {
+    do cells.enqueue(Rectangle.new(Point.new(0, 0), cellSize));
+    while (numCells > 1) {
+      do extendTip();
+      let numCells = numCells - 1;
+    } 
+    return;
+  }
+
+  method Cell firstCell() {
+    return cells.back(); 
+  }
+
+  method Cell nextCell(Cell cell) {
+    return cells.nextCell(cell);
+  }
+
+  method void shiftTo(int x, int y) {
+    return;
+  }
+
+  method void extendTip() {
+    var Rectangle newTip;
+    var Rectangle tip;
+    var Point topRight;
+
+    let tip = tip();
+    let topRight = tip.topRight();
+    
+    let newTip = Rectangle.new(topRight, cellSize);
+    do cells.enqueue(newTip);
+    return;
+  }
+
+  method Rectangle tip() {
+    var Cell cell;
+    let cell = cells.front();
+    return cell.rect();
+  }
+
+  method void trimEnd() {
+    do cells.dequeue();
+    return;
+  }
+
+  method Rectangle end() {
+    var Cell cell;
+    var Rectangle rect;
+    let cell = cells.back();
+    let rect = cell.rect();
+    return rect;
+  }
+}

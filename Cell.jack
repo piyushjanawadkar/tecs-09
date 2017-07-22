@@ -1,0 +1,18 @@
+class Cell {
+  field Rectangle rect;
+  field int index;
+
+  constructor Cell new(Rectangle argRect, int argIndex) {
+    let rect = argRect;
+    let index = argIndex;
+    return this; 
+  }
+
+  method Rectange rect() {
+    return rect;
+  }
+
+  method int index() {
+    return index;
+  }
+}

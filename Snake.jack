@@ -1,16 +1,42 @@
 class Snake {
 
-  field int initialLength;
-  field int size;
+  field Body body;
 
-  constructor Snake new(int snakeLength) {
-    let initialLength = snakeLength;
-    let size = 10;
+  constructor Snake new(int snakeLength, int snakeMaxLength) {
+    let body = Body.new(snakeLength, snakeMaxLength, 10);
     return this;
   }
 
-  method void draw(int x, int y) {
-    do Screen.drawRectangle(x, y, x + Math.multiply(initialLength, size), y + size);
+  method void draw() {
+    var Cell cell;
+    var Rectangle rect;
+    let cell = body.firstCell();
+    while (~(cell = null)) {
+      let rect = cell.rect();
+      do rect.draw();
+      let cell = body.nextCell(cell);
+    }
+    return;
+  }
+
+  method void setPosition(int x, int y) {
+    do body.shiftTo(x, y);
+    return;
+  }
+
+  method void move(int durationMillis) {
+    var Rectangle tip;
+    var Rectangle end;
+
+    let tip = body.tip();
+    let end = body.end();
+
+    do body.extendTip();
+    do tip.draw();
+    do end.erase();
+    do body.trimEnd();
+
+    do Sys.wait(durationMillis);
     return;
   }
 }
