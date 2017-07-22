@@ -28,11 +28,10 @@ class Snake {
     var Rectangle tip;
     var Rectangle end;
 
-    let tip = body.tip();
-    let end = body.end();
-
     do body.extendTip();
+    let tip = body.tip();
     do tip.draw();
+    let end = body.end();
     do end.erase();
     do body.trimEnd();
 
