@@ -2,14 +2,10 @@ class Rectangle {
 
   field Point topLeft;
   field int size;
-  field bool WHITE;
-  field bool BLACK;
 
   constructor Rectangle new(Point argTopLeft, int argSize) {
     let topLeft = argTopLeft;
     let size = argSize;
-    let WHITE = false;
-    let BLACK = true;
     return this;
   }
 
@@ -21,23 +17,20 @@ class Rectangle {
     return Point.new(topLeft.x() + size, topLeft.y() + size);
   }
 
-  method void draw() {
-    do drawWithColor(BLACK);
-    return;
-  }
-
-  method void erase() {
-    do drawWithColor(WHITE);
-    return;
-  }
-
-  method void drawWithColor(bool color) {
+  method void draw(Color color) {
     var Point bottomRight;
     let bottomRight = bottomRight();
 
-    do Screen.setColor(color);    
+    do Screen.setColor(color.value());    
     do Screen.drawRectangle(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
 
     return;
+  }
+
+  method boolean equals(Rectangle other) {
+    var Point otherTopLeft;
+
+    let otherTopLeft = other.topLeft();
+    return topLeft.equals(otherTopLeft);
   }
 }

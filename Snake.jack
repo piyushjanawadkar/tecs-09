@@ -8,12 +8,20 @@ class Snake {
   }
 
   method void draw() {
+    do drawInternal(Color.black(), 0);
+    return;
+  }
+
+  method void drawInternal(Color color, int durationMillis) {
     var Cell cell;
     var Rectangle rect;
     let cell = body.firstCell();
     while (~(cell = null)) {
       let rect = cell.rect();
-      do rect.draw();
+      do rect.draw(color);
+      if (durationMillis > 0) {
+        do Sys.wait(durationMillis);
+      }
       let cell = body.nextCell(cell);
     }
     return;
@@ -24,18 +32,31 @@ class Snake {
     return;
   }
 
-  method void move(Direction direction, int durationMillis) {
+  method boolean move(Direction direction, int durationMillis) {
     var Rectangle tip;
     var Rectangle end;
 
-    do body.extendTip(direction);
+    if (~body.extendTip(direction)) {
+      return false;
+    }
+
     let tip = body.tip();
-    do tip.draw();
+    do tip.draw(Color.black());
     let end = body.end();
-    do end.erase();
+    do end.draw(Color.white());
     do body.trimEnd();
 
     do Sys.wait(durationMillis);
+    return true;
+  }
+
+  method void kill(int durationMillis) {
+    do drawInternal(Color.white(), durationMillis);
+    do body.dispose();
     return;
+  }
+
+  method boolean isDead() {
+    return body.isEmpty();
   }
 }

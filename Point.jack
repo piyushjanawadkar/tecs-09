@@ -17,6 +17,14 @@ class Point {
     return y;
   } 
 
+  method boolean equals(Point other) {
+    if (~(x = other.x())) {
+      return false;
+    }
+
+    return y = other.y();
+  }
+
   function Point add(Point point, Vector vector) {
     return Point.new(
         point.x() + vector.xComponent(),

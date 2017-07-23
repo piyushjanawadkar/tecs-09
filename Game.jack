@@ -14,7 +14,9 @@ class Game {
     do snake.setPosition(0, 0);
     do snake.draw();
     while (inProgress()) {
-      do snake.move(direction, 100);
+      if (~snake.move(direction, 100)) {
+        do snake.kill(1000);
+      }
     }
     return;
   }
@@ -26,6 +28,10 @@ class Game {
   method boolean inProgress() {
     var char pressedKey;
     var Direction d;
+
+    if (snake.isDead()) {
+      return false;
+    }
 
     let pressedKey = Keyboard.keyPressed();
     if (isQuitKey(pressedKey)) {

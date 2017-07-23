@@ -23,6 +23,15 @@ class Body {
     return;
   }
 
+  method void dispose() {
+    do cells.dispose();
+    return;
+  }
+
+  method boolean isEmpty() {
+    return cells.front() = null;
+  }
+
   method Cell firstCell() {
     return cells.back(); 
   }
@@ -35,7 +44,7 @@ class Body {
     return;
   }
 
-  method void extendTip(Direction direction) {
+  method boolean extendTip(Direction direction) {
     var Rectangle newTip;
     var Rectangle tip;
     var Point topLeft;
@@ -45,8 +54,11 @@ class Body {
     let topLeft = Point.add(topLeft, direction.vector(cellSize));
 
     let newTip = Rectangle.new(topLeft, cellSize);
+    if (cells.intersect(newTip)) {
+      return false;
+    }
     do cells.enqueue(newTip);
-    return;
+    return true;
   }
 
   method Rectangle tip() {
@@ -66,5 +78,9 @@ class Body {
     let cell = cells.back();
     let rect = cell.rect();
     return rect;
+  }
+
+  method boolean isDead() {
+    return cells.isEmpty();
   }
 }

@@ -3,26 +3,30 @@ class Direction {
   field int deltaX;
   field int deltaY;
 
-  constructor Direction internal(int argDeltaX, int argDeltaY) {
+  method void internal(int argDeltaX, int argDeltaY) {
     let deltaX = argDeltaX;
     let deltaY = argDeltaY;
+    return;
+  }
+
+  constructor Direction left() {
+    do internal(-1, 0);
     return this;
   }
 
-  function Direction left() {
-    return Direction.internal(-1, 0);
+  constructor Direction up() {
+    do internal(0, -1);
+    return this;
   }
 
-  function Direction up() {
-    return Direction.internal(0, -1);
+  constructor Direction right() {
+    do internal(1, 0);
+    return this;
   }
 
-  function Direction right() {
-    return Direction.internal(1, 0);
-  }
-
-  function Direction down() {
-    return Direction.internal(0, 1);
+  constructor Direction down() {
+    do internal(0, 1);
+    return this;
   }
 
   method Vector vector(int scaleFactor) {

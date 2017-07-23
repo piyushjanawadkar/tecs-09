@@ -14,6 +14,18 @@ class CircularQueue {
     return this;
   }
 
+  method void dispose() {
+    do Memory.deAlloc(buffer);
+    let bufferSize = 0;
+    let length = 0;
+    do resetIndices();
+    return;
+  }
+
+  method boolean isEmpty() {
+    return front < 0;
+  }
+
   method void enqueue(Rectangle rect) {
     var Cell cell;
 
@@ -40,11 +52,17 @@ class CircularQueue {
   }
 
   method Cell front() {
-    return buffer[front];
+    if (~isEmpty()) {
+      return buffer[front];
+    }
+    return null;
   }
 
   method Cell back() {
-    return buffer[back];
+    if (~isEmpty()) {
+      return buffer[back];
+    }
+    return null;
   }
 
   method Cell nextCell(Cell cell) {
@@ -70,5 +88,21 @@ class CircularQueue {
     let front = -1;
     let back = -1;
     return;
+  }
+
+  method boolean intersect(Rectangle rect) {
+    var Cell cell;
+    var Rectangle cellRect;
+
+    let cell = back();
+    while (~(cell = null)) {
+      let cellRect = cell.rect();
+      if (rect.equals(cellRect)) {
+        return true;
+      }
+      let cell = nextCell(cell);
+    }
+
+    return false; 
   }
 }
