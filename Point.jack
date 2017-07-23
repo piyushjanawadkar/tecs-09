@@ -16,4 +16,10 @@ class Point {
   method int y() {
     return y;
   } 
+
+  function Point add(Point point, Vector vector) {
+    return Point.new(
+        point.x() + vector.xComponent(),
+        point.y() + vector.yComponent());
+  }
 }

@@ -3,7 +3,7 @@ class Snake {
   field Body body;
 
   constructor Snake new(int snakeLength, int snakeMaxLength) {
-    let body = Body.new(snakeLength, snakeMaxLength, 10);
+    let body = Body.new(snakeLength, snakeMaxLength, 10, Direction.right());
     return this;
   }
 
@@ -24,11 +24,11 @@ class Snake {
     return;
   }
 
-  method void move(int durationMillis) {
+  method void move(Direction direction, int durationMillis) {
     var Rectangle tip;
     var Rectangle end;
 
-    do body.extendTip();
+    do body.extendTip(direction);
     let tip = body.tip();
     do tip.draw();
     let end = body.end();

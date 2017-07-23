@@ -1,10 +1,12 @@
 class Game {
   field Snake snake;
   field int numCoins;
+  field Direction direction;
 
   constructor Game new(int argSnakeLength, int argNumCoins) {
     let snake = Snake.new(argSnakeLength, argSnakeLength + argNumCoins);
     let numCoins = argNumCoins;
+    let direction = Direction.right();
     return this;
   }
 
@@ -12,7 +14,7 @@ class Game {
     do snake.setPosition(0, 0);
     do snake.draw();
     while (inProgress()) {
-      do snake.move(100);
+      do snake.move(direction, 100);
     }
     return;
   }
@@ -22,6 +24,43 @@ class Game {
   }
 
   method boolean inProgress() {
+    var char pressedKey;
+    var Direction d;
+
+    let pressedKey = Keyboard.keyPressed();
+    if (isQuitKey(pressedKey)) {
+      return false;
+    }
+
+    let d = getDirection(pressedKey);
+    if (~(d = null)) {
+      let direction = d;
+    }
+
     return true;
+  }
+
+  method boolean isQuitKey(char pressedKey) {
+    return pressedKey = 81;  // 'Q'
+  }
+
+  method Direction getDirection(char pressedKey) {
+    if (pressedKey = 130) {
+      return Direction.left();
+    }
+
+    if (pressedKey = 131) {
+      return Direction.up();
+    }
+
+    if (pressedKey = 132) {
+      return Direction.right();
+    }
+
+    if (pressedKey = 133) {
+      return Direction.down();
+    }
+
+    return null;
   }
 }

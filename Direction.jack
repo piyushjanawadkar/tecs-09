@@ -1,0 +1,37 @@
+class Direction {
+
+  field int deltaX;
+  field int deltaY;
+
+  constructor Direction internal(int argDeltaX, int argDeltaY) {
+    let deltaX = argDeltaX;
+    let deltaY = argDeltaY;
+    return this;
+  }
+
+  function Direction left() {
+    return Direction.internal(-1, 0);
+  }
+
+  function Direction up() {
+    return Direction.internal(0, -1);
+  }
+
+  function Direction right() {
+    return Direction.internal(1, 0);
+  }
+
+  function Direction down() {
+    return Direction.internal(0, 1);
+  }
+
+  method Vector vector(int scaleFactor) {
+    var int xComponent;
+    var int yComponent;
+
+    let xComponent = Math.multiply(scaleFactor, deltaX);
+    let yComponent = Math.multiply(scaleFactor, deltaY);
+
+    return Vector.new(xComponent, yComponent);
+  }
+}

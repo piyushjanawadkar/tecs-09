@@ -13,8 +13,8 @@ class Rectangle {
     return this;
   }
 
-  method Point topRight() {
-    return Point.new(topLeft.x() + size, topLeft.y());
+  method Point topLeft() {
+    return topLeft;
   }
 
   method Point bottomRight() {

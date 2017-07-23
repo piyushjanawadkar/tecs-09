@@ -3,17 +3,21 @@ class Body {
   field CircularQueue cells;
   field int cellSize;
 
-  constructor Body new(int argNumCells, int argMaxNumCells, int argCellSize) {
+  constructor Body new(
+      int argNumCells,
+      int argMaxNumCells,
+      int argCellSize,
+      Direction direction) {
     let cells = CircularQueue.new(argMaxNumCells);
     let cellSize = argCellSize;
-    do initCells(argNumCells);
+    do initCells(argNumCells, direction);
     return this;
   }
 
-  method void initCells(int numCells) {
+  method void initCells(int numCells, Direction direction) {
     do cells.enqueue(Rectangle.new(Point.new(0, 0), cellSize));
     while (numCells > 1) {
-      do extendTip();
+      do extendTip(direction);
       let numCells = numCells - 1;
     } 
     return;
@@ -31,15 +35,16 @@ class Body {
     return;
   }
 
-  method void extendTip() {
+  method void extendTip(Direction direction) {
     var Rectangle newTip;
     var Rectangle tip;
-    var Point topRight;
+    var Point topLeft;
 
     let tip = tip();
-    let topRight = tip.topRight();
-    
-    let newTip = Rectangle.new(topRight, cellSize);
+    let topLeft = tip.topLeft();
+    let topLeft = Point.add(topLeft, direction.vector(cellSize));
+
+    let newTip = Rectangle.new(topLeft, cellSize);
     do cells.enqueue(newTip);
     return;
   }
