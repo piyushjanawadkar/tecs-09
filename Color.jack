@@ -1,0 +1,18 @@
+class Color {
+
+  field boolean value;  
+
+  constructor Color white() {
+    let value = false;
+    return this;
+  }
+
+  constructor Color black() {
+    let value = true;
+    return this;
+  }
+
+  method boolean value() {
+    return value;
+  }
+} 

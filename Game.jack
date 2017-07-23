@@ -14,8 +14,8 @@ class Game {
     do snake.setPosition(0, 0);
     do snake.draw();
     while (inProgress()) {
-      if (~snake.move(direction, 100)) {
-        do snake.kill(1000);
+      if (~snake.move(direction, 1000)) {
+        do snake.kill(2000);
       }
     }
     return;

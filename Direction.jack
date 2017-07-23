@@ -38,4 +38,28 @@ class Direction {
 
     return Vector.new(xComponent, yComponent);
   }
+
+  method int getInternalDeltaX() {
+    return deltaX;
+  }
+
+  method int getInternalDeltaY() {
+    return deltaY;
+  }
+
+  method boolean isInverseOf(Direction other) {
+    var int sum;
+
+    let sum = deltaX + other.getInternalDeltaX();
+    if (~(sum = 0)) {
+      return false;
+    }
+
+    let sum = deltaY + other.getInternalDeltaY();
+    if (~(sum = 0)) {
+      return false;
+    }
+
+    return true;
+  }
 }

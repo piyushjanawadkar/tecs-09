@@ -74,10 +74,8 @@ class Body {
 
   method Rectangle end() {
     var Cell cell;
-    var Rectangle rect;
     let cell = cells.back();
-    let rect = cell.rect();
-    return rect;
+    return cell.rect();
   }
 
   method boolean isDead() {

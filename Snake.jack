@@ -1,9 +1,11 @@
 class Snake {
 
   field Body body;
+  field Direction prevDirection;
 
   constructor Snake new(int snakeLength, int snakeMaxLength) {
     let body = Body.new(snakeLength, snakeMaxLength, 10, Direction.right());
+    let prevDirection = null;
     return this;
   }
 
@@ -36,6 +38,11 @@ class Snake {
     var Rectangle tip;
     var Rectangle end;
 
+    if (isSharpTurn(direction)) {
+      // not allowed.
+      let direction = prevDirection;
+    }
+
     if (~body.extendTip(direction)) {
       return false;
     }
@@ -45,9 +52,18 @@ class Snake {
     let end = body.end();
     do end.draw(Color.white());
     do body.trimEnd();
+    let prevDirection = direction;
 
     do Sys.wait(durationMillis);
     return true;
+  }
+
+  method boolean isSharpTurn(Direction direction) {
+    if (prevDirection = null) {
+      return false;
+    }
+
+    return direction.isInverseOf(prevDirection);
   }
 
   method void kill(int durationMillis) {
