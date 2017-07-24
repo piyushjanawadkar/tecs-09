@@ -1,32 +1,49 @@
 class Direction {
 
+  static int LEFT;
+  static int UP;
+  static int RIGHT;
+  static int DOWN; 
+
   field int deltaX;
   field int deltaY;
 
-  method void internal(int argDeltaX, int argDeltaY) {
-    let deltaX = argDeltaX;
-    let deltaY = argDeltaY;
+  function void init() {
+    let LEFT = Direction.internal(-1, 0);
+    let UP = Direction.internal(0, -1);
+    let RIGHT = Direction.internal(1, 0);
+    let DOWN = Direction.internal(0, 1);
     return;
   }
 
-  constructor Direction left() {
-    do internal(-1, 0);
+  function void destroy() {
+    do Memory.deAlloc(LEFT);
+    do Memory.deAlloc(UP);
+    do Memory.deAlloc(RIGHT);
+    do Memory.deAlloc(DOWN);
+    return;
+  }
+
+  constructor Direction internal(int argDeltaX, int argDeltaY) {
+    let deltaX = argDeltaX;
+    let deltaY = argDeltaY;
     return this;
   }
 
-  constructor Direction up() {
-    do internal(0, -1);
-    return this;
+  function Direction left() {
+    return LEFT;
   }
 
-  constructor Direction right() {
-    do internal(1, 0);
-    return this;
+  function Direction up() {
+    return UP;
   }
 
-  constructor Direction down() {
-    do internal(0, 1);
-    return this;
+  function Direction right() {
+    return RIGHT;
+  }
+
+  function Direction down() {
+    return DOWN;
   }
 
   method Vector vector(int scaleFactor) {
