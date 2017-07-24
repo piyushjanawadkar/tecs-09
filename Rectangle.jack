@@ -14,7 +14,13 @@ class Rectangle {
   }
 
   method Point bottomRight() {
-    return Point.new(topLeft.x() + size, topLeft.y() + size);
+    var int span;
+    let span = size - 1;
+    return Point.new(topLeft.x() + span, topLeft.y() + span);
+  }
+
+  method int size() {
+    return size;
   }
 
   method void draw(Color color) {
@@ -22,7 +28,9 @@ class Rectangle {
     let bottomRight = bottomRight();
 
     do Screen.setColor(color.value());    
-    do Screen.drawRectangle(topLeft.x(), topLeft.y(), bottomRight.x(), bottomRight.y());
+    do Screen.drawRectangle(
+        topLeft.x(), topLeft.y(),
+        bottomRight.x(), bottomRight.y());
 
     return;
   }
@@ -32,5 +40,20 @@ class Rectangle {
 
     let otherTopLeft = other.topLeft();
     return topLeft.equals(otherTopLeft);
+  }
+
+  method void printString() {
+    var Point bottomRight;
+
+    do Output.printString("[");
+    do topLeft.printString();
+
+    do Output.printString(", ");
+
+    let bottomRight = bottomRight();
+    do bottomRight.printString();
+    do Output.printString("]");
+
+    return;
   }
 }

@@ -54,6 +54,9 @@ class Body {
     let topLeft = Point.add(topLeft, direction.vector(cellSize));
 
     let newTip = Rectangle.new(topLeft, cellSize);
+    let newTip = View.map(newTip);
+    //do newTip.printString();
+    //do Output.println();
     if (cells.intersect(newTip)) {
       return false;
     }

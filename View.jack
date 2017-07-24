@@ -1,0 +1,69 @@
+class View {
+
+  static int MAX_WIDTH;
+  static int MAX_HEIGHT;
+
+  function void init() {
+    let MAX_WIDTH = 512;
+    let MAX_HEIGHT = 256;
+    return;
+  }
+
+  function Rectangle map(Rectangle rect) {
+    var Point topLeft;
+    var Point bottomRight;
+    var int x;
+    var int y;
+    var int size;
+
+    let size = rect.size();
+
+    let topLeft = rect.topLeft();
+    let x = topLeft.x();
+    let y = topLeft.y();
+
+    let bottomRight = rect.bottomRight();
+    if (View.crossesRightBoundary(bottomRight)) {
+      let x = 0;
+    }
+
+    if (View.crossesBottomBoundary(bottomRight)) {
+      let y = 0;
+    }
+
+    if (View.crossesLeftBoundary(topLeft)) {
+      let x = MAX_WIDTH - size;
+    }
+
+    if (View.crossesTopBoundary(topLeft)) {
+      let y = MAX_HEIGHT - size;
+    }
+
+    let topLeft = Point.new(x, y);
+    return Rectangle.new(topLeft, size);
+  }
+
+  function boolean crossesRightBoundary(Point point) {
+    var int x;
+    let x = point.x();
+    return ~(x < MAX_WIDTH);
+  }
+
+  function boolean crossesLeftBoundary(Point point) {
+    var int x;
+    let x = point.x();
+    return x < 0;
+  }
+
+  function boolean crossesTopBoundary(Point point) {
+    var int y;
+    let y = point.y();
+    return y < 0;
+  }
+
+  function boolean crossesBottomBoundary(Point point) {
+    var int y;
+    let y = point.y();
+    return ~(y < MAX_HEIGHT);
+  }
+}

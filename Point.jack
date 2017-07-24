@@ -30,4 +30,13 @@ class Point {
         point.x() + vector.xComponent(),
         point.y() + vector.yComponent());
   }
+
+  method void printString() {
+    do Output.printString("(");
+    do Output.printInt(x);
+    do Output.printString(",");
+    do Output.printInt(y);
+    do Output.printString(")");
+    return;
+  }
 }
