@@ -9,6 +9,12 @@ class Snake {
     return this;
   }
 
+  method void dispose() {
+    do body.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
   method void draw() {
     do drawInternal(Color.black(), 0);
     return;
@@ -68,7 +74,7 @@ class Snake {
 
   method void kill(int durationMillis) {
     do drawInternal(Color.white(), durationMillis);
-    do body.dispose();
+    do body.deconstruct();
     return;
   }
 

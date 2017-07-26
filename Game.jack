@@ -22,6 +22,8 @@ class Game {
   }
 
   method void dispose() {
+    do snake.dispose();
+    do Memory.deAlloc(this);
     return;
   }
 

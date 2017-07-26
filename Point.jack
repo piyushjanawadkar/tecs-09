@@ -9,6 +9,11 @@ class Point {
     return this;
   }
 
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
   method int x() {
     return x;
   }
@@ -25,7 +30,7 @@ class Point {
     return y = other.y();
   }
 
-  function Point add(Point point, Vector vector) {
+  function Point newMovedPoint(Point point, Vector vector) {
     return Point.new(
         point.x() + vector.xComponent(),
         point.y() + vector.yComponent());

@@ -14,6 +14,12 @@ class Body {
     return this;
   }
 
+  method void dispose() {
+    do cells.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
   method void initCells(int numCells, Direction direction) {
     do cells.enqueue(Rectangle.new(Point.new(0, 0), cellSize));
     while (numCells > 1) {
@@ -23,8 +29,8 @@ class Body {
     return;
   }
 
-  method void dispose() {
-    do cells.dispose();
+  method void deconstruct() {
+    do cells.deconstruct();
     return;
   }
 
@@ -48,19 +54,23 @@ class Body {
     var Rectangle newTip;
     var Rectangle tip;
     var Point topLeft;
+    var Rectangle newWrappedTip;
+    var Vector newVector;
 
     let tip = tip();
     let topLeft = tip.topLeft();
-    let topLeft = Point.add(topLeft, direction.vector(cellSize));
+    let newVector = direction.newVector(cellSize);
+    let topLeft = Point.newMovedPoint(topLeft, newVector);
+    do newVector.dispose();
 
     let newTip = Rectangle.new(topLeft, cellSize);
-    let newTip = View.map(newTip);
-    //do newTip.printString();
-    //do Output.println();
-    if (cells.intersect(newTip)) {
+    let newWrappedTip = View.newMappedRectangle(newTip);
+    do newTip.dispose();
+    if (cells.intersect(newWrappedTip)) {
+      do newWrappedTip.dispose();
       return false;
     }
-    do cells.enqueue(newTip);
+    do cells.enqueue(newWrappedTip);
     return true;
   }
 

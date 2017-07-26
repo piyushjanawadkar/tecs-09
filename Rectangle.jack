@@ -2,11 +2,25 @@ class Rectangle {
 
   field Point topLeft;
   field int size;
+  field Point bottomRight;
 
   constructor Rectangle new(Point argTopLeft, int argSize) {
+    var int span;
+
     let topLeft = argTopLeft;
     let size = argSize;
+    
+    let span = size - 1;
+    let bottomRight = Point.new(topLeft.x() + span, topLeft.y() + span);
+
     return this;
+  }
+
+  method void dispose() {
+    do topLeft.dispose();
+    do bottomRight.dispose();
+    do Memory.deAlloc(this);
+    return;
   }
 
   method Point topLeft() {
@@ -14,9 +28,7 @@ class Rectangle {
   }
 
   method Point bottomRight() {
-    var int span;
-    let span = size - 1;
-    return Point.new(topLeft.x() + span, topLeft.y() + span);
+    return bottomRight;
   }
 
   method int size() {
@@ -24,9 +36,6 @@ class Rectangle {
   }
 
   method void draw(Color color) {
-    var Point bottomRight;
-    let bottomRight = bottomRight();
-
     do Screen.setColor(color.value());    
     do Screen.drawRectangle(
         topLeft.x(), topLeft.y(),
@@ -43,14 +52,11 @@ class Rectangle {
   }
 
   method void printString() {
-    var Point bottomRight;
-
     do Output.printString("[");
     do topLeft.printString();
 
     do Output.printString(", ");
 
-    let bottomRight = bottomRight();
     do bottomRight.printString();
     do Output.printString("]");
 

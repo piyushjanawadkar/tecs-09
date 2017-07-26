@@ -1,15 +1,38 @@
 class Color {
 
-  field boolean value;  
+  static Color WHITE;
+  static Color BLACK;  
 
-  constructor Color white() {
-    let value = false;
+  field boolean value;
+
+  function void init() {
+    let WHITE = Color.internal(false);
+    let BLACK = Color.internal(true);
+    return;
+  } 
+
+  function void destroy() {
+    do WHITE.dispose();
+    do BLACK.dispose();
+    return;
+  }
+
+  constructor Color internal(boolean argValue) {
+    let value = argValue;
     return this;
   }
 
-  constructor Color black() {
-    let value = true;
-    return this;
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  function Color white() {
+    return WHITE;
+  }
+
+  function Color black() {
+    return BLACK;
   }
 
   method boolean value() {

@@ -16,11 +16,14 @@ class Main {
   function void init() {
     do View.init();
     do Direction.init();
+    do Color.init();
     return;
   }
 
   function void destroy() {
+    do View.destroy();
     do Direction.destroy();
+    do Color.destroy();
     return;
   }
 }

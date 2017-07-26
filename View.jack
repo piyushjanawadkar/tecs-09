@@ -9,7 +9,11 @@ class View {
     return;
   }
 
-  function Rectangle map(Rectangle rect) {
+  function void destroy() {
+    return;
+  }
+
+  function Rectangle newMappedRectangle(Rectangle rect) {
     var Point topLeft;
     var Point bottomRight;
     var int x;

@@ -1,9 +1,9 @@
 class Direction {
 
-  static int LEFT;
-  static int UP;
-  static int RIGHT;
-  static int DOWN; 
+  static Direction LEFT;
+  static Direction UP;
+  static Direction RIGHT;
+  static Direction DOWN; 
 
   field int deltaX;
   field int deltaY;
@@ -17,10 +17,10 @@ class Direction {
   }
 
   function void destroy() {
-    do Memory.deAlloc(LEFT);
-    do Memory.deAlloc(UP);
-    do Memory.deAlloc(RIGHT);
-    do Memory.deAlloc(DOWN);
+    do LEFT.dispose();
+    do UP.dispose();
+    do RIGHT.dispose();
+    do DOWN.dispose();
     return;
   }
 
@@ -28,6 +28,11 @@ class Direction {
     let deltaX = argDeltaX;
     let deltaY = argDeltaY;
     return this;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
   }
 
   function Direction left() {
@@ -46,7 +51,7 @@ class Direction {
     return DOWN;
   }
 
-  method Vector vector(int scaleFactor) {
+  method Vector newVector(int scaleFactor) {
     var int xComponent;
     var int yComponent;
 
