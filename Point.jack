@@ -20,7 +20,7 @@ class Point {
 
   method int y() {
     return y;
-  } 
+  }
 
   method boolean equals(Point other) {
     if (~(x = other.x())) {

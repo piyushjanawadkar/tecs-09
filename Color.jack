@@ -1,7 +1,7 @@
 class Color {
 
   static Color WHITE;
-  static Color BLACK;  
+  static Color BLACK;
 
   field boolean value;
 
@@ -9,7 +9,7 @@ class Color {
     let WHITE = Color.internal(false);
     let BLACK = Color.internal(true);
     return;
-  } 
+  }
 
   function void destroy() {
     do WHITE.dispose();
@@ -38,4 +38,4 @@ class Color {
   method boolean value() {
     return value;
   }
-} 
+}

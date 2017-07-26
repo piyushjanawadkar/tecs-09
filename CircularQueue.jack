@@ -39,7 +39,7 @@ class CircularQueue {
 
     let front = advanceIndex(front);
     let cell = Cell.new(rect, front);
-    
+
     let buffer[front] = cell;
     let length = length + 1;
 
@@ -51,7 +51,7 @@ class CircularQueue {
 
     let cell = buffer[back];
     do cell.dispose();
-    let buffer[back] = null; 
+    let buffer[back] = null;
 
     let back = advanceIndex(back);
     let length = length - 1;
@@ -111,6 +111,6 @@ class CircularQueue {
       let cell = nextCell(cell);
     }
 
-    return false; 
+    return false;
   }
 }
