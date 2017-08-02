@@ -13,6 +13,14 @@ class View {
     return;
   }
 
+  function int maxWidth() {
+    return MAX_WIDTH;
+  }
+
+  function int maxHeight() {
+    return MAX_HEIGHT;
+  }
+
   function Rectangle newMappedRectangle(Rectangle rect) {
     var Point topLeft;
     var Point bottomRight;

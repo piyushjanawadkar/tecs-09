@@ -34,6 +34,10 @@ class CircularQueue {
     return length = 0;
   }
 
+  method boolean isFull() {
+    return length = bufferSize;
+  }
+
   method void enqueue(Rectangle rect) {
     var Cell cell;
 

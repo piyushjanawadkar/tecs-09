@@ -4,7 +4,7 @@ class Main {
 
     do Main.init();
 
-    let game = Game.new(20, 10);
+    let game = Game.new(20, 8, 10);
     do game.play();
     do game.dispose();
 

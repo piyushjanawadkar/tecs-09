@@ -51,7 +51,7 @@ class Rectangle {
     return topLeft.equals(otherTopLeft);
   }
 
-  method void printString() {
+  method void print() {
     do Output.printString("[");
     do topLeft.printString();
 

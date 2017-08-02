@@ -69,6 +69,22 @@ class Direction {
     return deltaY;
   }
 
+  method boolean equals(Direction other) {
+    var int otherDelta;
+
+    let otherDelta = other.getInternalDeltaX();
+    if (~(deltaX = otherDelta)) {
+      return false;
+    }
+
+    let otherDelta = other.getInternalDeltaY();
+    if (~(deltaY = otherDelta)) {
+      return false;
+    }
+
+    return true;
+  }
+
   method boolean isInverseOf(Direction other) {
     var int sum;
 

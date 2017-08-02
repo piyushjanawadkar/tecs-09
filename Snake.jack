@@ -3,8 +3,8 @@ class Snake {
   field Body body;
   field Direction prevDirection;
 
-  constructor Snake new(int snakeLength, int snakeMaxLength) {
-    let body = Body.new(snakeLength, snakeMaxLength, 10, Direction.right());
+  constructor Snake new(int snakeLength, int snakeMaxLength, int cellSize) {
+    let body = Body.new(snakeLength, snakeMaxLength, cellSize, Direction.right());
     let prevDirection = null;
     return this;
   }
@@ -40,7 +40,7 @@ class Snake {
     return;
   }
 
-  method boolean move(Direction direction, int durationMillis) {
+  method boolean move(Direction direction, int durationMillis, Coin coin) {
     var Rectangle tip;
     var Rectangle end;
 
@@ -55,13 +55,37 @@ class Snake {
 
     let tip = body.tip();
     do tip.draw(Color.black());
-    let end = body.end();
-    do end.draw(Color.white());
-    do body.trimEnd();
+
+    if (~(Snake.touchesCoin(tip, coin))) {
+      let end = body.end();
+      do end.draw(Color.white());
+      do body.trimEnd();
+    } else {
+      do coin.setConsumed();
+    }
     let prevDirection = direction;
 
     do Sys.wait(durationMillis);
     return true;
+  }
+
+  method Rectangle tip() {
+    if (body.isEmpty()) {
+      return null;
+    }
+
+    return body.tip();
+  }
+
+  function boolean touchesCoin(Rectangle tip, Coin coin) {
+    var Rectangle rect;
+
+    if (coin = null) {
+      return false;
+    }
+
+    let rect = coin.rect();
+    return tip.equals(rect);
   }
 
   method boolean isSharpTurn(Direction direction) {

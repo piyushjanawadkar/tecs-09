@@ -1,0 +1,41 @@
+class Coin {
+  field Rectangle rect;
+  field boolean isConsumed;
+
+  constructor Coin new(Rectangle argRect) {
+    let rect = argRect;
+    let isConsumed = false;
+    return this;
+  }
+
+  method void dispose() {
+    do rect.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method boolean isConsumed() {
+    return isConsumed;
+  }
+
+  method Rectangle rect() {
+    return rect;
+  }
+
+  method void setConsumed() {
+    let isConsumed = true;
+    return;
+  }
+
+  method void draw() {
+    do rect.draw(Color.black());
+    return;
+  }
+
+  method void print() {
+    do Output.printString("coin: ");
+    do rect.print();
+    do Output.println();
+    return;
+  }
+}

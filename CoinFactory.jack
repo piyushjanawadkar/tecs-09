@@ -1,0 +1,104 @@
+class CoinFactory {
+
+  field int numRemainingCoins;
+  field int coinSize;
+  field Coin latestCoin;
+  field RandomNumberGenerator randGenerator;
+
+  constructor CoinFactory new(int argNumCoins, int argCoinSize, int randSeed) {
+    let coinSize = argCoinSize;
+    let randGenerator = RandomNumberGenerator.new(randSeed, View.maxWidth());
+    let latestCoin = null;
+    let numRemainingCoins = argNumCoins;
+    let latestCoin = nextCoin();
+    return this;
+  }
+
+  method void dispose() {
+    do disposeLatestCoin();
+    do randGenerator.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void disposeLatestCoin() {
+    if (~(latestCoin = null)) {
+      do latestCoin.dispose();
+    }
+    let latestCoin = null;
+    return;
+  }
+
+  method Coin getLatestCoin() {
+    return latestCoin;
+  }
+
+  method Coin nextCoin() {
+    var Rectangle newRect;
+
+    do disposeLatestCoin();
+
+    if (numRemainingCoins = 0) {
+      return null;  
+    }
+
+    let newRect = getNewRandomRectangle();    
+    let latestCoin = Coin.new(newRect);
+    //do latestCoin.print();
+    //do Output.println();
+    let numRemainingCoins = numRemainingCoins - 1;
+
+    return latestCoin;
+  }
+
+  method Rectangle getNewRandomRectangle() {
+    var int x;
+    var int y;
+    var Point topLeft;
+    var Rectangle newRect;
+    var Rectangle newWrappedRect;
+
+    let x = randGenerator.generateRand();
+    //do Output.moveCursor(0, 100);
+    // do Output.printInt(x);
+    // do Output.printString(",");
+    let x = CoinFactory.clampToSizeMultiple(x, coinSize);
+    // do Output.printInt(x);
+    // do Output.println();
+
+    let y = randGenerator.generateRand();
+    let y = Math.divide(y, 2);
+    // do Output.printInt(y);
+    // do Output.printString(",");
+    let y = CoinFactory.clampToSizeMultiple(y, coinSize);
+    // do Output.printInt(y);
+    // do Output.println();
+    //do Output.moveCursor(0, 0);
+
+    let topLeft = Point.new(x, y);
+    let newRect = Rectangle.new(topLeft, coinSize);
+    let newWrappedRect = View.newMappedRectangle(newRect);
+
+    do newRect.dispose();
+    return newWrappedRect; 
+  }
+
+  function int clampToSizeMultiple(int value, int size) {
+    let value = Math.divide(value, size);
+    let value = Math.multiply(value, size);
+    return value;
+  }
+
+  method void print() {
+    do Output.printString("factory: ");
+    do Output.printInt(numRemainingCoins);
+    do Output.printString(", ");
+    if (latestCoin = null) {
+      do Output.printString("null");
+    } else {
+      do latestCoin.print();
+    }
+    do Output.println();
+    return;
+  }
+}
