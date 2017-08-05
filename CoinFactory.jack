@@ -39,13 +39,11 @@ class CoinFactory {
     do disposeLatestCoin();
 
     if (numRemainingCoins = 0) {
-      return null;  
+      return null;
     }
 
-    let newRect = getNewRandomRectangle();    
+    let newRect = getNewRandomRectangle();
     let latestCoin = Coin.new(newRect);
-    //do latestCoin.print();
-    //do Output.println();
     let numRemainingCoins = numRemainingCoins - 1;
 
     return latestCoin;
@@ -59,28 +57,18 @@ class CoinFactory {
     var Rectangle newWrappedRect;
 
     let x = randGenerator.generateRand();
-    //do Output.moveCursor(0, 100);
-    // do Output.printInt(x);
-    // do Output.printString(",");
     let x = CoinFactory.clampToSizeMultiple(x, coinSize);
-    // do Output.printInt(x);
-    // do Output.println();
 
     let y = randGenerator.generateRand();
     let y = Math.divide(y, 2);
-    // do Output.printInt(y);
-    // do Output.printString(",");
     let y = CoinFactory.clampToSizeMultiple(y, coinSize);
-    // do Output.printInt(y);
-    // do Output.println();
-    //do Output.moveCursor(0, 0);
 
     let topLeft = Point.new(x, y);
     let newRect = Rectangle.new(topLeft, coinSize);
     let newWrappedRect = View.newMappedRectangle(newRect);
 
     do newRect.dispose();
-    return newWrappedRect; 
+    return newWrappedRect;
   }
 
   function int clampToSizeMultiple(int value, int size) {

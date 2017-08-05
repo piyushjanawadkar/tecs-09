@@ -5,7 +5,7 @@ class Cell {
   constructor Cell new(Rectangle argRect, int argIndex) {
     let rect = argRect;
     let index = argIndex;
-    return this; 
+    return this;
   }
 
   method void dispose() {

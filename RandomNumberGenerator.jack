@@ -1,33 +1,32 @@
 class RandomNumberGenerator {
 
   field int value;
-  field int upperBound;
+  field RandomNumberGeneratorParams params;
 
-  constructor RandomNumberGenerator new(int argRandSeed, int argUpperBound) {
+  constructor RandomNumberGenerator new(int argRandSeed, int argM) {
     let value = Math.abs(argRandSeed);
-    let upperBound = argUpperBound;
+    let params = RandomNumberGeneratorParams.get(argM);
     return this;
   }
 
   method void dispose() {
+    do params.dispose();
     do Memory.deAlloc(this);
     return;
   }
 
   method int generateRand() {
-    let value = Math.multiply(value, 61);
-    let value = value + 729;   
+    var int a;
+    var int b;
+    var int m;
 
-    // do Output.printString("ax + b: ");
-    // do Output.printInt(value);
-    // do Output.println();
+    let m = params.m();
+    let a = params.a();
+    let b = params.b();
 
-    // let value = Math.abs(value);
-    let value = RandomNumberGenerator.getRemainder(value, upperBound);
-
-    // do Output.printString("random: ");
-    // do Output.printInt(value);
-    // do Output.println();
+    let value = Math.multiply(value, a);
+    let value = value + b;
+    let value = RandomNumberGenerator.getRemainder(value, m);
 
     return value;
   }
@@ -36,23 +35,8 @@ class RandomNumberGenerator {
     var int quotient;
     var int maxMultiple;
 
-    // do Output.printString("dividend: ");
-    // do Output.printInt(dividend);
-    // do Output.printString(" / ");
-    // do Output.printInt(divisor);
-
     let quotient = Math.divide(dividend, divisor);
-
-    // do Output.printString(" = ");
-    // do Output.printInt(quotient);
-    // do Output.println();
-
     let maxMultiple = Math.multiply(quotient, divisor);
-
-    // do Output.printString("maxMultiple: ");
-    // do Output.printInt(maxMultiple);
-    // do Output.println();
-
-    return dividend - maxMultiple; 
+    return dividend - maxMultiple;
   }
 }

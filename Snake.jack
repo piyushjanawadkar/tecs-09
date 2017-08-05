@@ -35,11 +35,6 @@ class Snake {
     return;
   }
 
-  method void setPosition(int x, int y) {
-    do body.shiftTo(x, y);
-    return;
-  }
-
   method boolean move(Direction direction, int durationMillis, Coin coin) {
     var Rectangle tip;
     var Rectangle end;

@@ -1,4 +1,5 @@
 class Game {
+
   field Snake snake;
   field int cellSize;
   field Direction direction;
@@ -7,6 +8,22 @@ class Game {
   field int numTurns;
   field int minNumTurns;
   field CoinFactory coinFactory;
+
+  function void init() {
+    do View.init();
+    do Direction.init();
+    do Color.init();
+    do RandomNumberGeneratorParams.init();
+    return;
+  }
+
+  function void destroy() {
+    do View.destroy();
+    do Direction.destroy();
+    do Color.destroy();
+    do RandomNumberGeneratorParams.destroy();
+    return;
+  }
 
   constructor Game new(int argSnakeLength, int argSnakeCellSize, int argNumCoins) {
     let cellSize = argSnakeCellSize;
@@ -28,36 +45,30 @@ class Game {
     do Memory.deAlloc(this);
     return;
   }
- 
+
   method void play() {
     var Coin coin;
     var Rectangle rect;
     var CoinFactory factory;
 
-    do snake.setPosition(0, 0);
     do snake.draw();
 
     let coin = null;
     while (inProgress()) {
       if (numTurns > minNumTurns) {
         let factory = getCoinFactory();
-        // do factory.print();
         let coin = getLatestUnconsumedCoin(factory);
         if (coin = null) {
-          do Output.printString("out of coins");
+          do Output.printString("Out of coins. Game Over!");
           do stop();
           return;
         }
         do coin.draw();
-        //let rect = coin.rect();
-        //do rect.printString();
-        //do Output.println();
       }
       if (~snake.move(direction, 500, coin)) {
-        do Output.printString("snake bit itself");
+        do Output.printString("Snake bit itself. You lost!");
         do stop();
       }
-      // do printGame();
     }
     return;
   }
@@ -112,9 +123,6 @@ class Game {
 
     let d = getDirection(pressedKey);
     if (~(d = null)) {
-      //if (~(d.equals(direction))) {
-      //  let direction = d;
-      //}
       do registerTurn(d, pressedKey);
     }
 
@@ -133,7 +141,7 @@ class Game {
     let numTurns = numTurns + 1;
     let tip = snake.tip();
     let randSeedUpdate = Game.generateRandSeedUpdate(tip, directionKey);
-    let randSeed = randSeed + randSeedUpdate; 
+    let randSeed = randSeed + randSeedUpdate;
     return;
   }
 
@@ -146,10 +154,10 @@ class Game {
     let topLeft = tip.topLeft();
     let x = topLeft.x();
     let y = topLeft.y();
-    
+
     let update = x + y;
     let update = update * directionKey;
-    return Math.abs(update);  
+    return Math.abs(update);
   }
 
   method boolean isQuitKey(char pressedKey) {

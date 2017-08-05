@@ -1,0 +1,71 @@
+class RandomNumberGeneratorParams {
+  static Array paramsList;
+  static int numParams;
+
+  field int m;
+  field int a;
+  field int b;
+
+  function void init() {
+    let paramsList = Array.new(4);
+    let numParams = 0;
+    do RandomNumberGeneratorParams.addNewParams(-1, -1, -1);
+    do RandomNumberGeneratorParams.addNewParams(512, 61, 729);
+    return;
+  }
+
+  function void destroy() {
+    do Memory.deAlloc(paramsList);
+    return;
+  }
+
+  function void addNewParams(int m1, int a1, int b1) {
+    var RandomNumberGeneratorParams params;
+
+    let params = RandomNumberGeneratorParams.new(m1, a1, b1);
+    let paramsList[numParams] = params;
+    let numParams = numParams + 1;
+    return;
+  }
+
+  function RandomNumberGeneratorParams get(int m) {
+    var int i;
+    var RandomNumberGeneratorParams params;
+
+    let i = numParams - 1;
+    while (i > 0) {
+      let params = paramsList[i];
+      if (params[0] = m) {
+        return params;
+      }
+      let i = i - 1;
+    }
+
+    let params = paramsList[0];
+    return params;
+  }
+
+  constructor RandomNumberGeneratorParams new(int argM, int argA, int argB) {
+    let m = argM;
+    let a = argA;
+    let b = argB;
+    return this;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method int m() {
+    return m;
+  }
+
+  method int a() {
+    return a;
+  }
+
+  method int b() {
+    return b;
+  }
+}

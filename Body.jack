@@ -25,7 +25,7 @@ class Body {
     while (numCells > 1) {
       do extendTip(direction);
       let numCells = numCells - 1;
-    } 
+    }
     return;
   }
 
@@ -39,15 +39,11 @@ class Body {
   }
 
   method Cell firstCell() {
-    return cells.back(); 
+    return cells.back();
   }
 
   method Cell nextCell(Cell cell) {
     return cells.nextCell(cell);
-  }
-
-  method void shiftTo(int x, int y) {
-    return;
   }
 
   method boolean extendTip(Direction direction) {
@@ -66,7 +62,7 @@ class Body {
     let newTip = Rectangle.new(topLeft, cellSize);
     let newWrappedTip = View.newMappedRectangle(newTip);
     do newTip.dispose();
-    if (cells.intersect(newWrappedTip)) {
+    if (cells.contains(newWrappedTip)) {
       do newWrappedTip.dispose();
       return false;
     }

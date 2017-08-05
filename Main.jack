@@ -2,28 +2,12 @@ class Main {
   function void main() {
     var Game game;
 
-    do Main.init();
-
-    let game = Game.new(20, 8, 10);
+    do Game.init();
+    let game = Game.new(20, 8, 50);
     do game.play();
     do game.dispose();
+    do Game.destroy();
 
-    do Main.destroy();
-
-    return;
-  }
-
-  function void init() {
-    do View.init();
-    do Direction.init();
-    do Color.init();
-    return;
-  }
-
-  function void destroy() {
-    do View.destroy();
-    do Direction.destroy();
-    do Color.destroy();
     return;
   }
 }
