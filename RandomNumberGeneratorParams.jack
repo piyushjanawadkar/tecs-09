@@ -19,10 +19,10 @@ class RandomNumberGeneratorParams {
     return;
   }
 
-  function void addNewParams(int m1, int a1, int b1) {
+  function void addNewParams(int m, int a, int b) {
     var RandomNumberGeneratorParams params;
 
-    let params = RandomNumberGeneratorParams.new(m1, a1, b1);
+    let params = RandomNumberGeneratorParams.new(m, a, b);
     let paramsList[numParams] = params;
     let numParams = numParams + 1;
     return;

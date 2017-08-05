@@ -4,7 +4,8 @@ class RandomNumberGenerator {
   field RandomNumberGeneratorParams params;
 
   constructor RandomNumberGenerator new(int argRandSeed, int argM) {
-    let value = Math.abs(argRandSeed);
+    let argRandSeed = Math.abs(argRandSeed);
+    let value = RandomNumberGenerator.getRemainder(argRandSeed, argM);
     let params = RandomNumberGeneratorParams.get(argM);
     return this;
   }
