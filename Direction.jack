@@ -1,0 +1,103 @@
+class Direction {
+
+  static Direction LEFT;
+  static Direction UP;
+  static Direction RIGHT;
+  static Direction DOWN;
+
+  field int deltaX;
+  field int deltaY;
+
+  function void init() {
+    let LEFT = Direction.internal(-1, 0);
+    let UP = Direction.internal(0, -1);
+    let RIGHT = Direction.internal(1, 0);
+    let DOWN = Direction.internal(0, 1);
+    return;
+  }
+
+  function void destroy() {
+    do LEFT.dispose();
+    do UP.dispose();
+    do RIGHT.dispose();
+    do DOWN.dispose();
+    return;
+  }
+
+  constructor Direction internal(int argDeltaX, int argDeltaY) {
+    let deltaX = argDeltaX;
+    let deltaY = argDeltaY;
+    return this;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  function Direction left() {
+    return LEFT;
+  }
+
+  function Direction up() {
+    return UP;
+  }
+
+  function Direction right() {
+    return RIGHT;
+  }
+
+  function Direction down() {
+    return DOWN;
+  }
+
+  method Vector newVector(int scaleFactor) {
+    var int xComponent;
+    var int yComponent;
+
+    let xComponent = Math.multiply(scaleFactor, deltaX);
+    let yComponent = Math.multiply(scaleFactor, deltaY);
+
+    return Vector.new(xComponent, yComponent);
+  }
+
+  method int getInternalDeltaX() {
+    return deltaX;
+  }
+
+  method int getInternalDeltaY() {
+    return deltaY;
+  }
+
+  method boolean equals(Direction other) {
+    var int otherDelta;
+
+    let otherDelta = other.getInternalDeltaX();
+    if (~(deltaX = otherDelta)) {
+      return false;
+    }
+
+    let otherDelta = other.getInternalDeltaY();
+    if (~(deltaY = otherDelta)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  method boolean isInverseOf(Direction other) {
+    var int sum;
+
+    let sum = deltaX + other.getInternalDeltaX();
+    if (~(sum = 0)) {
+      return false;
+    }
+
+    let sum = deltaY + other.getInternalDeltaY();
+    if (~(sum = 0)) {
+      return false;
+    }
+
+    return true;
+  }
+}

@@ -1,0 +1,93 @@
+class Body {
+
+  field CircularQueue cells;
+  field int cellSize;
+
+  constructor Body new(
+      int argNumCells,
+      int argMaxNumCells,
+      int argCellSize,
+      Direction direction) {
+    let cells = CircularQueue.new(argMaxNumCells);
+    let cellSize = argCellSize;
+    do initCells(argNumCells, direction);
+    return this;
+  }
+
+  method void dispose() {
+    do cells.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void initCells(int numCells, Direction direction) {
+    do cells.enqueue(Rectangle.new(Point.new(0, 0), cellSize));
+    while (numCells > 1) {
+      do extendTip(direction);
+      let numCells = numCells - 1;
+    }
+    return;
+  }
+
+  method void deconstruct() {
+    do cells.deconstruct();
+    return;
+  }
+
+  method boolean isEmpty() {
+    return cells.front() = null;
+  }
+
+  method Cell firstCell() {
+    return cells.back();
+  }
+
+  method Cell nextCell(Cell cell) {
+    return cells.nextCell(cell);
+  }
+
+  method boolean extendTip(Direction direction) {
+    var Rectangle newTip;
+    var Rectangle tip;
+    var Point topLeft;
+    var Rectangle newWrappedTip;
+    var Vector newVector;
+
+    let tip = tip();
+    let topLeft = tip.topLeft();
+    let newVector = direction.newVector(cellSize);
+    let topLeft = Point.newMovedPoint(topLeft, newVector);
+    do newVector.dispose();
+
+    let newTip = Rectangle.new(topLeft, cellSize);
+    let newWrappedTip = View.newMappedRectangle(newTip);
+    do newTip.dispose();
+    if (cells.contains(newWrappedTip)) {
+      do newWrappedTip.dispose();
+      return false;
+    }
+    do cells.enqueue(newWrappedTip);
+    return true;
+  }
+
+  method Rectangle tip() {
+    var Cell cell;
+    let cell = cells.front();
+    return cell.rect();
+  }
+
+  method void trimEnd() {
+    do cells.dequeue();
+    return;
+  }
+
+  method Rectangle end() {
+    var Cell cell;
+    let cell = cells.back();
+    return cell.rect();
+  }
+
+  method boolean isDead() {
+    return cells.isEmpty();
+  }
+}

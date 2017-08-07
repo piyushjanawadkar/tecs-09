@@ -1,0 +1,24 @@
+class Cell {
+  field Rectangle rect;
+  field int index;
+
+  constructor Cell new(Rectangle argRect, int argIndex) {
+    let rect = argRect;
+    let index = argIndex;
+    return this;
+  }
+
+  method void dispose() {
+    do rect.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method Rectange rect() {
+    return rect;
+  }
+
+  method int index() {
+    return index;
+  }
+}

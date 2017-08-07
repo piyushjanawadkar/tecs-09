@@ -1,0 +1,43 @@
+class RandomNumberGenerator {
+
+  field int value;
+  field RandomNumberGeneratorParams params;
+
+  constructor RandomNumberGenerator new(int argRandSeed, int argM) {
+    let argRandSeed = Math.abs(argRandSeed);
+    let value = RandomNumberGenerator.getRemainder(argRandSeed, argM);
+    let params = RandomNumberGeneratorParams.get(argM);
+    return this;
+  }
+
+  method void dispose() {
+    do params.dispose();
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method int generateRand() {
+    var int a;
+    var int b;
+    var int m;
+
+    let m = params.m();
+    let a = params.a();
+    let b = params.b();
+
+    let value = Math.multiply(value, a);
+    let value = value + b;
+    let value = RandomNumberGenerator.getRemainder(value, m);
+
+    return value;
+  }
+
+  function int getRemainder(int dividend, int divisor) {
+    var int quotient;
+    var int maxMultiple;
+
+    let quotient = Math.divide(dividend, divisor);
+    let maxMultiple = Math.multiply(quotient, divisor);
+    return dividend - maxMultiple;
+  }
+}

@@ -1,19 +1,186 @@
 class Game {
-  field Snake snake;
-  field int numCoins;
 
-  constructor Game new(int argSnakeLength, int argNumCoins) {
-    let snake = Snake.new(argSnakeLength);
+  field Snake snake;
+  field int cellSize;
+  field Direction direction;
+  field int numCoins;
+  field int randSeed;
+  field int numTurns;
+  field int minNumTurns;
+  field CoinFactory coinFactory;
+
+  function void init() {
+    do View.init();
+    do Direction.init();
+    do Color.init();
+    do RandomNumberGeneratorParams.init();
+    return;
+  }
+
+  function void destroy() {
+    do View.destroy();
+    do Direction.destroy();
+    do Color.destroy();
+    do RandomNumberGeneratorParams.destroy();
+    return;
+  }
+
+  constructor Game new(int argSnakeLength, int argSnakeCellSize, int argNumCoins) {
+    let cellSize = argSnakeCellSize;
+    let snake = Snake.new(argSnakeLength, argSnakeLength + argNumCoins, cellSize);
     let numCoins = argNumCoins;
+    let numTurns = 0;
+    let minNumTurns = 5;
+    let direction = Direction.right();
+    let coinFactory = null;
+    let randSeed = 0;
     return this;
   }
 
-  method void play() {
-    do snake.draw(0, 0);
+  method void dispose() {
+    do snake.dispose();
+    if (~(coinFactory = null)) {
+      do coinFactory.dispose();
+    }
+    do Memory.deAlloc(this);
     return;
   }
 
-  method void dispose() {
+  method void play() {
+    var Coin coin;
+    var Rectangle rect;
+    var CoinFactory factory;
+
+    do snake.draw();
+
+    let coin = null;
+    while (inProgress()) {
+      if (numTurns > minNumTurns) {
+        let factory = getCoinFactory();
+        let coin = getLatestUnconsumedCoin(factory);
+        if (coin = null) {
+          do Output.printString("Out of coins. Game Over!");
+          do stop();
+          return;
+        }
+        do coin.draw();
+      }
+      if (~snake.move(direction, 500, coin)) {
+        do Output.printString("Snake bit itself. You lost!");
+        do stop();
+      }
+    }
     return;
+  }
+
+  method void printGame() {
+    do Output.printString("num turns: ");
+    do Output.printInt(numTurns);
+    do Output.println();
+    return;
+  }
+
+  method CoinFactory getCoinFactory() {
+    if (coinFactory = null) {
+      let coinFactory = CoinFactory.new(numCoins, cellSize, randSeed);
+    }
+
+    return coinFactory;
+  }
+
+  method Coin getLatestUnconsumedCoin(CoinFactory factory) {
+    var Coin coin;
+
+    let coin = factory.getLatestCoin();
+    if (coin = null) {
+      return null;
+    }
+
+    if (coin.isConsumed()) {
+      return factory.nextCoin();
+    }
+
+    return coin;
+  }
+
+  method void stop() {
+    do snake.kill(200);
+    return;
+  }
+
+  method boolean inProgress() {
+    var char pressedKey;
+    var Direction d;
+
+    if (snake.isDead()) {
+      return false;
+    }
+
+    let pressedKey = Keyboard.keyPressed();
+    if (isQuitKey(pressedKey)) {
+      return false;
+    }
+
+    let d = getDirection(pressedKey);
+    if (~(d = null)) {
+      do registerTurn(d, pressedKey);
+    }
+
+    return true;
+  }
+
+  method void registerTurn(Direction dir, int directionKey) {
+    var int randSeedUpdate;
+    var Rectangle tip;
+
+    if (dir.equals(direction)) {
+      return;
+    }
+
+    let direction = dir;
+    let numTurns = numTurns + 1;
+    let tip = snake.tip();
+    let randSeedUpdate = Game.generateRandSeedUpdate(tip, directionKey);
+    let randSeed = randSeed + randSeedUpdate;
+    return;
+  }
+
+  function int generateRandSeedUpdate(Rectangle tip, int directionKey) {
+    var Point topLeft;
+    var int x;
+    var int y;
+    var int update;
+
+    let topLeft = tip.topLeft();
+    let x = topLeft.x();
+    let y = topLeft.y();
+
+    let update = x + y;
+    let update = update * directionKey;
+    return Math.abs(update);
+  }
+
+  method boolean isQuitKey(char pressedKey) {
+    return pressedKey = 81;  // 'Q'
+  }
+
+  method Direction getDirection(char pressedKey) {
+    if (pressedKey = 130) {
+      return Direction.left();
+    }
+
+    if (pressedKey = 131) {
+      return Direction.up();
+    }
+
+    if (pressedKey = 132) {
+      return Direction.right();
+    }
+
+    if (pressedKey = 133) {
+      return Direction.down();
+    }
+
+    return null;
   }
 }

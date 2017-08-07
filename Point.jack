@@ -1,0 +1,47 @@
+class Point {
+
+  field int x;
+  field int y;
+
+  constructor Point new(int argX, int argY) {
+    let x = argX;
+    let y = argY;
+    return this;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method int x() {
+    return x;
+  }
+
+  method int y() {
+    return y;
+  }
+
+  method boolean equals(Point other) {
+    if (~(x = other.x())) {
+      return false;
+    }
+
+    return y = other.y();
+  }
+
+  function Point newMovedPoint(Point point, Vector vector) {
+    return Point.new(
+        point.x() + vector.xComponent(),
+        point.y() + vector.yComponent());
+  }
+
+  method void printString() {
+    do Output.printString("(");
+    do Output.printInt(x);
+    do Output.printString(",");
+    do Output.printInt(y);
+    do Output.printString(")");
+    return;
+  }
+}

@@ -1,16 +1,103 @@
 class Snake {
 
-  field int initialLength;
-  field int size;
+  field Body body;
+  field Direction prevDirection;
 
-  constructor Snake new(int snakeLength) {
-    let initialLength = snakeLength;
-    let size = 10;
+  constructor Snake new(int snakeLength, int snakeMaxLength, int cellSize) {
+    let body = Body.new(snakeLength, snakeMaxLength, cellSize, Direction.right());
+    let prevDirection = null;
     return this;
   }
 
-  method void draw(int x, int y) {
-    do Screen.drawRectangle(x, y, x + Math.multiply(initialLength, size), y + size);
+  method void dispose() {
+    do body.dispose();
+    do Memory.deAlloc(this);
     return;
+  }
+
+  method void draw() {
+    do drawInternal(Color.black(), 0);
+    return;
+  }
+
+  method void drawInternal(Color color, int durationMillis) {
+    var Cell cell;
+    var Rectangle rect;
+    let cell = body.firstCell();
+    while (~(cell = null)) {
+      let rect = cell.rect();
+      do rect.draw(color);
+      if (durationMillis > 0) {
+        do Sys.wait(durationMillis);
+      }
+      let cell = body.nextCell(cell);
+    }
+    return;
+  }
+
+  method boolean move(Direction direction, int durationMillis, Coin coin) {
+    var Rectangle tip;
+    var Rectangle end;
+
+    if (isSharpTurn(direction)) {
+      // not allowed.
+      let direction = prevDirection;
+    }
+
+    if (~body.extendTip(direction)) {
+      return false;
+    }
+
+    let tip = body.tip();
+    do tip.draw(Color.black());
+
+    if (~(Snake.touchesCoin(tip, coin))) {
+      let end = body.end();
+      do end.draw(Color.white());
+      do body.trimEnd();
+    } else {
+      do coin.setConsumed();
+    }
+    let prevDirection = direction;
+
+    do Sys.wait(durationMillis);
+    return true;
+  }
+
+  method Rectangle tip() {
+    if (body.isEmpty()) {
+      return null;
+    }
+
+    return body.tip();
+  }
+
+  function boolean touchesCoin(Rectangle tip, Coin coin) {
+    var Rectangle rect;
+
+    if (coin = null) {
+      return false;
+    }
+
+    let rect = coin.rect();
+    return tip.equals(rect);
+  }
+
+  method boolean isSharpTurn(Direction direction) {
+    if (prevDirection = null) {
+      return false;
+    }
+
+    return direction.isInverseOf(prevDirection);
+  }
+
+  method void kill(int durationMillis) {
+    do drawInternal(Color.white(), durationMillis);
+    do body.deconstruct();
+    return;
+  }
+
+  method boolean isDead() {
+    return body.isEmpty();
   }
 }

@@ -1,0 +1,120 @@
+class CircularQueue {
+
+  field Array buffer;
+  field int bufferSize;
+  field int front;
+  field int back;
+  field int length;
+
+  constructor CircularQueue new(int argMaxNumCells) {
+    let bufferSize = argMaxNumCells;
+    let buffer = Array.new(bufferSize);
+    let front = 0;
+    let back = advanceIndex(front);
+    let length = 0;
+    return this;
+  }
+
+  method void dispose() {
+    do deconstruct();
+    do Memory.deAlloc(buffer);
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method void deconstruct() {
+    while (length > 0) {
+      do dequeue();
+      let length = length - 1;
+    }
+    return;
+  }
+
+  method boolean isEmpty() {
+    return length = 0;
+  }
+
+  method boolean isFull() {
+    return length = bufferSize;
+  }
+
+  method void enqueue(Rectangle rect) {
+    var Cell cell;
+
+    let front = advanceIndex(front);
+    let cell = Cell.new(rect, front);
+
+    let buffer[front] = cell;
+    let length = length + 1;
+
+    return;
+  }
+
+  method void dequeue() {
+    var Cell cell;
+
+    let cell = buffer[back];
+    do cell.dispose();
+    let buffer[back] = null;
+
+    let back = advanceIndex(back);
+    let length = length - 1;
+
+    return;
+  }
+
+  method Cell front() {
+    if (~isEmpty()) {
+      return buffer[front];
+    }
+    return null;
+  }
+
+  method Cell back() {
+    if (~isEmpty()) {
+      return buffer[back];
+    }
+    return null;
+  }
+
+  method Cell nextCell(Cell cell) {
+    var int index;
+    let index = cell.index();
+    if (index = front) {
+      return null;
+    }
+
+    let index = advanceIndex(index);
+    return buffer[index];
+  }
+
+  method int advanceIndex(int index) {
+    let index = index + 1;
+    if (index = bufferSize) {
+      let index = 0;
+    }
+    return index;
+  }
+
+  method void resetIndices() {
+    let front = -1;
+    let back = -1;
+    return;
+  }
+
+  method boolean contains(Rectangle rect) {
+    var Cell cell;
+    var Rectangle cellRect;
+
+    let cell = back();
+    while (~(cell = null)) {
+      let cellRect = cell.rect();
+      if (rect.equals(cellRect)) {
+        return true;
+      }
+      let cell = nextCell(cell);
+    }
+
+    return false;
+  }
+}

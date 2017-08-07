@@ -1,0 +1,23 @@
+class Vector {
+  field int xComponent;
+  field int yComponent;
+
+  constructor Vector new(int argXComponent, int argYComponent) {
+    let xComponent = argXComponent;
+    let yComponent = argYComponent;
+    return this;
+  }
+
+  method void dispose() {
+    do Memory.deAlloc(this);
+    return;
+  }
+
+  method int xComponent() {
+    return xComponent;
+  }
+
+  method int yComponent() {
+    return yComponent;
+  }
+}
