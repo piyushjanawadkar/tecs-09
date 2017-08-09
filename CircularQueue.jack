@@ -25,7 +25,6 @@ class CircularQueue {
   method void deconstruct() {
     while (length > 0) {
       do dequeue();
-      let length = length - 1;
     }
     return;
   }

@@ -8,6 +8,7 @@ class Main {
     do game.dispose();
     do Game.destroy();
 
+    do Sys.halt();
     return;
   }
 }
